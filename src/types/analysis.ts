@@ -3,6 +3,10 @@ export {
   BoundsSchema,
   ColorEvidenceSchema,
   ComponentEvidenceSchema,
+  EvidenceCategoryIdSchema,
+  EvidenceCategorySchema,
+  evidenceCategories,
+  evidenceCategoryIds,
   LayoutEvidenceSchema,
   PageEvidenceSchema,
   ResponsiveEvidenceSchema,
@@ -11,6 +15,7 @@ export {
   StructureEvidenceSchema,
   TypographyEvidenceSchema,
   ViewportSchema,
+  createEvidenceId,
   parsePageEvidence,
 } from "./evidence.js";
 
@@ -19,6 +24,8 @@ export type {
   Bounds,
   ColorEvidence,
   ComponentEvidence,
+  EvidenceCategory,
+  EvidenceCategoryId,
   LayoutEvidence,
   PageEvidence,
   ResponsiveEvidence,

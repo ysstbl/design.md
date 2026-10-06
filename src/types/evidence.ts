@@ -11,7 +11,64 @@ const httpUrl = z.string().url().refine(
 
 const selector = z.string().min(1);
 const pixel = z.number().finite();
-const evidenceId = z.string().min(1);
+const evidenceId = z.string().regex(
+  /^E-[A-Z0-9]+(?:-[A-Z0-9]+)*-\d{3}$/,
+  "Expected an evidence ID in the form E-CATEGORY-001",
+);
+
+export const EvidenceCategorySchema = z.enum([
+  "screenshots",
+  "structure",
+  "colors",
+  "typography",
+  "spacing",
+  "layout",
+  "components",
+  "assets",
+  "responsive",
+]);
+export type EvidenceCategory = z.infer<typeof EvidenceCategorySchema>;
+
+export const EvidenceCategoryIdSchema = z.enum([
+  "E-SCREENSHOTS",
+  "E-STRUCTURE-RECORDS",
+  "E-COLORS",
+  "E-TYPOGRAPHY-RECORDS",
+  "E-SPACING-RECORDS",
+  "E-LAYOUT-RECORDS",
+  "E-COMPONENTS",
+  "E-ASSETS",
+  "E-RESPONSIVE-CHANGES",
+]);
+export type EvidenceCategoryId = z.infer<typeof EvidenceCategoryIdSchema>;
+
+export const evidenceCategoryIds: Record<EvidenceCategory, EvidenceCategoryId> = {
+  screenshots: "E-SCREENSHOTS",
+  structure: "E-STRUCTURE-RECORDS",
+  colors: "E-COLORS",
+  typography: "E-TYPOGRAPHY-RECORDS",
+  spacing: "E-SPACING-RECORDS",
+  layout: "E-LAYOUT-RECORDS",
+  components: "E-COMPONENTS",
+  assets: "E-ASSETS",
+  responsive: "E-RESPONSIVE-CHANGES",
+};
+
+export const evidenceCategories = [
+  { category: "screenshots", name: "Screenshots", id: "E-SCREENSHOTS" },
+  { category: "structure", name: "Structure records", id: "E-STRUCTURE-RECORDS" },
+  { category: "colors", name: "Colors", id: "E-COLORS" },
+  { category: "typography", name: "Typography records", id: "E-TYPOGRAPHY-RECORDS" },
+  { category: "spacing", name: "Spacing records", id: "E-SPACING-RECORDS" },
+  { category: "layout", name: "Layout records", id: "E-LAYOUT-RECORDS" },
+  { category: "components", name: "Components", id: "E-COMPONENTS" },
+  { category: "assets", name: "Assets", id: "E-ASSETS" },
+  { category: "responsive", name: "Responsive changes", id: "E-RESPONSIVE-CHANGES" },
+] as const satisfies ReadonlyArray<{
+  category: EvidenceCategory;
+  name: string;
+  id: EvidenceCategoryId;
+}>;
 
 export const ViewportSchema = z.object({
   width: z.number().int().positive(),
@@ -193,6 +250,27 @@ export const PageEvidenceSchema = z
     }
   });
 export type PageEvidence = z.infer<typeof PageEvidenceSchema>;
+
+export function createEvidenceId(
+  category: EvidenceCategory,
+  existingIds: Iterable<string> = [],
+): string {
+  const prefix = `${evidenceCategoryIds[category]}-`;
+  let nextNumber = 1;
+
+  for (const id of existingIds) {
+    if (!id.startsWith(prefix)) {
+      continue;
+    }
+
+    const suffix = Number(id.slice(prefix.length));
+    if (Number.isInteger(suffix) && suffix >= nextNumber) {
+      nextNumber = suffix + 1;
+    }
+  }
+
+  return `${prefix}${String(nextNumber).padStart(3, "0")}`;
+}
 
 export function parsePageEvidence(input: unknown): PageEvidence {
   return PageEvidenceSchema.parse(input);

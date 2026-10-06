@@ -129,6 +129,12 @@ validate:
 - Evidence references used by inferred fields.
 - Consistent identifiers within one page render.
 
+Evidence categories use stable descriptive prefixes (`E-SCREENSHOTS`,
+`E-COLORS`, and so on). Each captured record receives an automatically
+assigned zero-padded identifier under its category prefix, such as
+`E-SCREENSHOTS-001`. IDs are allocated from the highest existing suffix so
+reordering records does not change their identifiers.
+
 ### Design Shape
 
 The validated design shape should contain:
