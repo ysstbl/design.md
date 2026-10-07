@@ -1,3 +1,5 @@
 .agents/
 .superpowers/
 node_modules/
+.analyze-build/
+.test-build/

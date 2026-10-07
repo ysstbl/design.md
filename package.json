@@ -3,12 +3,15 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "analyze": "tsc --target ES2022 --module NodeNext --moduleResolution NodeNext --skipLibCheck --outDir .analyze-build --noEmit false --declaration false --sourceMap false scripts/analyze-url.ts src/types/*.ts && node .analyze-build/scripts/analyze-url.js",
+    "test": "tsc --target ES2022 --module NodeNext --moduleResolution NodeNext --skipLibCheck --outDir .test-build --noEmit false --declaration false --sourceMap false scripts/analyze-url.ts tests/*.ts src/types/*.ts && node --test .test-build/tests/analyze-url.test.js",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "zod": "^3.25.76"
   },
   "devDependencies": {
+    "@types/node": "^26.6.4",
     "typescript": "^5.8.3"
   }
 }

@@ -19,6 +19,19 @@ export {
   parsePageEvidence,
 } from "./evidence.js";
 
+export {
+  AiOutputSchema,
+  AssetEntrySchema,
+  ConfidenceLevelSchema,
+  ConfidenceSchema,
+  EvidenceReferenceSchema,
+  FinalDocumentSchema,
+  RecommendationSchema,
+  TechnologyFindingSchema,
+  parseAiOutput,
+  parseFinalDocument,
+} from "./report.js";
+
 export type {
   AssetEvidence,
   Bounds,
@@ -35,3 +48,14 @@ export type {
   TypographyEvidence,
   Viewport,
 } from "./evidence.js";
+
+export type {
+  AiOutput,
+  AssetEntry,
+  Confidence,
+  ConfidenceLevel,
+  EvidenceReference,
+  FinalDocument,
+  Recommendation,
+  TechnologyFinding,
+} from "./report.js";
